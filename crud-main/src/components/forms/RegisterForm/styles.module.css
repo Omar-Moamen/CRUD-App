@@ -1,0 +1,30 @@
+.SignUpForm {
+   max-width: 600px;
+   margin-bottom: 30px;
+}
+
+.SignUpForm h5 {
+   text-align: center;
+   text-transform: uppercase;
+}
+
+.SignUpForm input {
+   margin: 10px;
+}
+
+
+.fullNameWrapper {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 15px;
+   align-items: center;
+}
+
+.fullNameWrapper .MuiFormControl-root {
+   flex-grow: 1;
+}
+
+.SignUpForm button[type="submit"],
+.SignUpForm button[type="reset"] {
+   font-weight: bold;
+}

@@ -1,0 +1,19 @@
+.welcomeMessage {
+   display: flex;
+   justify-content: center;
+   gap: 8px;
+   align-items: center;
+   text-transform: capitalize;
+}
+
+
+li .logoutBtn {
+   width: 100%;
+   text-transform: capitalize;
+   font-size: 17px;
+   border-radius: 0;
+   -webkit-border-radius: 0;
+   -moz-border-radius: 0;
+   -ms-border-radius: 0;
+   -o-border-radius: 0;
+}

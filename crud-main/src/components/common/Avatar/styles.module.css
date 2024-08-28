@@ -1,0 +1,7 @@
+.avatar {
+   display: flex;
+   flex-direction: column;
+   text-align: center;
+   align-items: center;
+   margin-right: 20px;
+}

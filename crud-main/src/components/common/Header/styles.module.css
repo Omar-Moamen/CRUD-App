@@ -1,0 +1,13 @@
+.mainHeader {
+   display: flex;
+}
+
+.mainHeader .logo {
+   margin-right: 50px;
+   font-weight: bold;
+}
+
+.mainHeader a {
+   text-transform: capitalize;
+   font-size: 16px;
+}

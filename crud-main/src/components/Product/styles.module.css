@@ -1,0 +1,28 @@
+table .titleCell {
+   max-width: 150px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
+
+table .orderCell {
+   color: #90caf9;
+}
+
+table .descriptionCell {
+   max-width: 300px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
+
+table .btnsContainer {
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   justify-content: center;
+}
+
+table .btnsContainer button {
+   text-transform: capitalize;
+}

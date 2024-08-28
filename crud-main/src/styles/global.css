@@ -1,0 +1,98 @@
+* {
+   box-sizing: border-box !important;
+}
+
+body {
+   margin: 0;
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+}
+
+.MuiFormHelperText-root.Mui-error {
+   margin-left: 2px;
+}
+
+/* Custom Neon Form */
+
+.neonForm {
+   position: relative;
+   margin: 0 auto;
+   display: flex;
+   flex-flow: column wrap;
+   padding: 2rem;
+   background-color: #1c1f2b;
+   gap: 15px 25px;
+   border-radius: 10px;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   -ms-border-radius: 10px;
+   -o-border-radius: 10px;
+}
+
+@media(max-width: 680px) {
+   .neonForm {
+      font-size: 15px !important;
+      padding: 1.25rem;
+      min-width: initial !important;
+      max-width: 255px !important;
+      gap: 15px 0 !important;
+   }
+}
+
+
+@property --angle {
+   syntax: "<angle>";
+   initial-value: 0deg;
+   inherits: false;
+}
+
+.neonForm::after, .neonForm::before {
+   box-sizing: initial;
+   content: '';
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 50%;
+   left: 50%;
+   translate: -50% -50%;
+   background-image: conic-gradient(from var(--angle),
+         #FF4545,
+         #00FF99,
+         #006AFF,
+         #FF0095,
+         #FF4545);
+   z-index: -1;
+   padding: 1px;
+   border-radius: 10px;
+   animation: 8s spin linear infinite;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   -ms-border-radius: 10px;
+   -o-border-radius: 10px;
+   -webkit-animation: 8s spin linear infinite;
+}
+
+.neonForm::before {
+   filter: blur(1.5rem);
+   -webkit-filter: blur(1.5rem);
+   opacity: 0.4;
+}
+
+/* @Keyframes */
+@keyframes spin {
+   from {
+      --angle: 0deg
+   }
+
+   to {
+      --angle: 360deg;
+   }
+}

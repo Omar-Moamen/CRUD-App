@@ -1,0 +1,9 @@
+.AddForm {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+.AddForm input {
+   margin: 10px;
+}

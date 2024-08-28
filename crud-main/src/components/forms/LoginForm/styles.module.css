@@ -1,0 +1,23 @@
+.LogForm {
+   max-width: 500px;
+}
+
+.LogForm h5 {
+   text-align: center;
+   text-transform: uppercase;
+}
+
+.LogForm input {
+   margin: 10px;
+}
+
+.LogForm button {
+   font-weight: bold;
+}
+
+.btnsContainer {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   margin-top: 20px;
+}
