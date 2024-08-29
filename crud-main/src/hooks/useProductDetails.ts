@@ -7,20 +7,25 @@ import { cleanProductInfo } from "../store/products/productsSlice";
 const useProductDetails = () =>
 {
    const dispatch = useAppDispatch();
+   const { token } = useAppSelector(state => state.auth)
    const { productInfo, loading, error } = useAppSelector(state => state.products);
    const { productId } = useParams();
 
    useEffect(() =>
    {
-      const promise = dispatch(actGetSingleProduct(Number(productId)))
-
-      return () =>
+      if (token && productId)
       {
-         dispatch(cleanProductInfo());
-         // promise.abort() will cancel the request if a user bounce occurred
-         promise.abort();
+         const productIdWithToken = { _id: productId, token, }
+         const promise = dispatch(actGetSingleProduct(productIdWithToken))
+
+         return () =>
+         {
+            dispatch(cleanProductInfo());
+            // promise.abort() will cancel the request if a user bounce occurred
+            promise.abort();
+         }
       }
-   }, [dispatch, productId])
+   }, [dispatch, productId, token])
 
    return { productInfo, loading, error, dispatch }
 }

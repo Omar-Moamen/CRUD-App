@@ -1,5 +1,11 @@
 type TLoading = 'idle' | 'pending' | 'succeeded' | 'failed';
 type TError = string | null;
+type TToken = string | null;
+
+type TProductIdWithToken = {
+   _id: string,
+   token: TToken,
+}
 
 type TSetFunc = (args: string) => void;
 
@@ -18,4 +24,4 @@ type TLoginData =
    }
 
 
-export type { TError, TLoading, TSetFunc, TRegisterData, TLoginData };
+export type { TError, TLoading, TToken, TProductIdWithToken, TSetFunc, TRegisterData, TLoginData };

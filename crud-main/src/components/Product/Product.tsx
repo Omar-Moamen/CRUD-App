@@ -7,30 +7,38 @@ import TooltipButton from "../common/TooltipButton/TooltipButton";
 import { TableCell, TableRow } from "@mui/material";
 // Styles
 import styles from './styles.module.css';
-
+import useCurrentMode from "../../hooks/useCurrentMode";
 
 type TProps = TProduct & { idx?: number };
 
-const { orderCell, titleCell, descriptionCell, btnsContainer } = styles;
+const { orderCell, titleCell, btnsContainer } = styles;
 
-const Product = memo(({ id, title, description, price, category, idx }: TProps) =>
+const Product = memo(({ _id, title, price, quantity, idx }: TProps) =>
 {
    const dispatch = useAppDispatch();
    const { token, user } = useAppSelector(state => state.auth);
    const navigate = useNavigate();
+   const { currentMode } = useCurrentMode();
 
    return (
       <>
          <TableRow
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            sx={{
+               '&:last-child td, &:last-child th': { border: 0 },
+               '&:nth-of-type(odd)': {
+                  bgcolor: currentMode === "light" ?
+                     "whitesmoke" : "#121212"
+               },
+               '&:nth-of-type(even)': {
+                  bgcolor: currentMode === "light" ?
+                     "ghostwhite" : ""
+               },
+            }}
          >
-            <TableCell className={orderCell} scope="row">
-               {`#${idx! + 1}`}
-            </TableCell>
+            <TableCell className={orderCell} scope="row"> {`#${idx! + 1}`}</TableCell>
             <TableCell className={titleCell} align="center">{title}</TableCell>
-            <TableCell className={descriptionCell} align="center">{description}</TableCell>
             <TableCell align="center">&#36;{price}</TableCell>
-            <TableCell align="center">{category}</TableCell>
+            <TableCell align="center">{quantity}</TableCell>
             <TableCell align="center">
                <div className={btnsContainer}>
                   <TooltipButton
@@ -39,7 +47,7 @@ const Product = memo(({ id, title, description, price, category, idx }: TProps) 
                      placement="top"
                      disabled={token && user ? false : true}
                      color="info"
-                     onClick={() => navigate(`products/${id}/product-details`)}
+                     onClick={() => navigate(`products/${_id}`)}
                   />
                   <TooltipButton
                      text="Edit"
@@ -47,7 +55,7 @@ const Product = memo(({ id, title, description, price, category, idx }: TProps) 
                      placement="top"
                      disabled={token && user && user.sub === "SuperAdmin" ? false : true}
                      color="success"
-                     onClick={() => { navigate(`/products/${id}/edit`) }}
+                     onClick={() => { navigate(`/products/${_id}/edit`) }}
                   />
                   <TooltipButton
                      text="Delete"
@@ -55,7 +63,7 @@ const Product = memo(({ id, title, description, price, category, idx }: TProps) 
                      placement="top"
                      disabled={token && user && user.sub === "SuperAdmin" ? false : true}
                      color="error"
-                     onClick={() => dispatch(actDeleteProduct(id))}
+                     onClick={() => dispatch(actDeleteProduct({ _id, token }))}
                   />
                </div>
             </TableCell>

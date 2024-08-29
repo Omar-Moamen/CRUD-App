@@ -4,7 +4,7 @@ import { actAddProduct } from "../../../store/products/act/actAddProduct";
 import { TProduct } from "../../../types/product";
 import ErrorFeedback from "../../feedback/ErrorFeedback/ErrorFeedback";
 import useCurrentMode from "../../../hooks/useCurrentMode";
-import { Box, Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 // Styles
 import styles from './styles.module.css';
 import Form from "../Form/Form";
@@ -18,6 +18,7 @@ const { AddForm } = styles;
 const AddProductForm = ({ setOpenModal }: TProps) =>
 {
    const dispatch = useAppDispatch();
+   const { token } = useAppSelector(state => state.auth);
    const { loading, error } = useAppSelector(state => state.products);
    const { register, handleSubmit, reset, formState: { errors } } = useForm<TProduct>();
 
@@ -25,7 +26,10 @@ const AddProductForm = ({ setOpenModal }: TProps) =>
 
    const onSubmit: SubmitHandler<TProduct> = (data) =>
    {
-      dispatch(actAddProduct(data))
+      const { title, quantity, price } = data;
+      const productWithToken = { token, title, quantity, price }
+
+      dispatch(actAddProduct(productWithToken))
          .unwrap()
          .then(() => reset())
          .then(() => setOpenModal(false))
@@ -50,22 +54,6 @@ const AddProductForm = ({ setOpenModal }: TProps) =>
             helperText={errors.title?.message}
          />
          <TextField
-            id="description"
-            {...register('description', { required: "Description is required" })}
-            label="Description"
-            variant="outlined"
-            error={!!errors.description}
-            helperText={errors.description?.message}
-         />
-         <TextField
-            id="image"
-            {...register('image', { required: "Image url is required" })}
-            label="Image URL"
-            variant="outlined"
-            error={!!errors.image}
-            helperText={errors.image?.message}
-         />
-         <TextField
             id="price"
             {...register('price', { required: "Price is required" })}
             label="Price"
@@ -74,12 +62,12 @@ const AddProductForm = ({ setOpenModal }: TProps) =>
             helperText={errors.price?.message}
          />
          <TextField
-            id="category"
-            {...register('category', { required: "Category is required" })}
-            label="Category"
+            id="quantity"
+            {...register('quantity', { required: "Quantity is required" })}
+            label="Quantity"
             variant="outlined"
-            error={!!errors.category}
-            helperText={errors.category?.message}
+            error={!!errors.quantity}
+            helperText={errors.quantity?.message}
          />
          <Button
             type="submit"

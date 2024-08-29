@@ -1,24 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import axiosErrorHandler from "../../../utils/axiosErrorHandler";
+import { TToken } from "../../../types/shared";
 
-type TProductData = {
+type TProductWithToken = {
+   token: TToken;
    title: string;
-   description: string;
-   image: string;
    price: number;
-   category: string;
+   quantity: number;
 }
 
 export const actAddProduct = createAsyncThunk('products/actAddProduct',
-   async (productData: TProductData, thunkAPI) =>
+   async (productWithToken: TProductWithToken, thunkAPI) =>
    {
+      const { token, title, price, quantity } = productWithToken;
       const { rejectWithValue } = thunkAPI;
 
       try
       {
-         const response = await axios.post('/products', productData, {
+         const response = await axios.post('http://localhost:8080', {}, {
             headers: {
+               Authorization: token,
+               title,
+               price,
+               quantity,
                "Content-Type": 'application/json',
             }
          })

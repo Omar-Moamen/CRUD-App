@@ -3,15 +3,21 @@ import axios from 'axios';
 import axiosErrorHandler from '../../../utils/axiosErrorHandler';
 import { TProduct } from '../../../types/product';
 
-type TResponse = TProduct[];
+type TResponse = {
+   product: TProduct[]
+};
 
 export const actGetAllProducts = createAsyncThunk('products/actGetAllProducts',
-   async (_, thunkAPI) =>
+   async (token: string, thunkAPI) =>
    {
-      const { rejectWithValue, signal } = thunkAPI;
+      const { rejectWithValue } = thunkAPI;
       try
       {
-         const response = await axios.get<TResponse>('/products', { signal, });
+         const response = await axios.get<TResponse>('http://localhost:8080', {
+            headers: {
+               Authorization: token!
+            }
+         });
          return response.data;
       }
       catch (error)

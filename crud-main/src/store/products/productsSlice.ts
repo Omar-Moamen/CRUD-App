@@ -45,7 +45,7 @@ const productsSlice = createSlice({
          {
             state.loading = 'succeeded';
             state.error = null;
-            state.records = payload;
+            state.records = payload.product;
          })
          .addCase(actGetAllProducts.rejected, (state, { payload }) =>
          {
@@ -64,7 +64,7 @@ const productsSlice = createSlice({
          {
             state.loading = 'succeeded';
             state.error = null;
-            state.productInfo = payload;
+            state.productInfo = payload.message;
          })
          .addCase(actGetSingleProduct.rejected, (state, { payload }) =>
          {
@@ -83,7 +83,7 @@ const productsSlice = createSlice({
          {
             state.loading = 'succeeded';
             state.error = null;
-            state.records.push(payload);
+            state.records.push(payload.product);
          })
          .addCase(actAddProduct.rejected, (state, { payload }) =>
          {
@@ -98,11 +98,10 @@ const productsSlice = createSlice({
             state.loading = 'pending';
             state.error = null;
          })
-         .addCase(actUpdateProduct.fulfilled, (state, { payload }) =>
+         .addCase(actUpdateProduct.fulfilled, (state) =>
          {
             state.loading = 'succeeded';
             state.error = null;
-            // state.records.push(payload);
          })
          .addCase(actUpdateProduct.rejected, (state, { payload }) =>
          {
@@ -121,7 +120,7 @@ const productsSlice = createSlice({
          {
             state.loading = 'succeeded';
             state.error = null;
-            state.records = state.records.filter(el => (el.id !== payload));
+            state.records = state.records.filter(el => (el["_id"] !== payload));
          })
          .addCase(actDeleteProduct.rejected, (state, { payload }) =>
          {

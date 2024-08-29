@@ -7,9 +7,9 @@ type TProps = {
 
 const ProductsList = ({ records }: TProps) =>
 {
-   const products = records.length > 0 &&
+   const products = records && records.length > 0 &&
       (records.map((product, idx) => (
-         <Product key={product.id} {...product} idx={idx} />
+         <Product key={product["_id"]} {...product} idx={idx} />
       )));
 
    return (

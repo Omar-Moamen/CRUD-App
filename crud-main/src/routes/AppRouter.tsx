@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             element: <Home />,
          },
          {
-            path: 'products/:productId/product-details',
+            path: 'products/:productId',
             element: (
                <PageSuspenseFallback>
                   <ProductDetails />
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
             {
                if (params.productId)
                {
-                  if (/\D/g.test(params.productId))
+                  if (/[A-Z]/g.test(params.productId))
                   {
                      throw new Response("Bad Request", {
                         statusText: "Product not found",

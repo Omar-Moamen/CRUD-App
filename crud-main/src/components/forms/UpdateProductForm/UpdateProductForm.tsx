@@ -5,17 +5,19 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import ErrorFeedback from "../../feedback/ErrorFeedback/ErrorFeedback";
 import { TProduct } from "../../../types/product";
-import { Box, Button, CircularProgress, Container, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, Container, TextField } from "@mui/material";
 // Styles
 import styles from './styles.module.css';
-import { grey } from "@mui/material/colors";
 import useCurrentMode from "../../../hooks/useCurrentMode";
 import Form from "../Form/Form";
+import { useAppSelector } from "../../../store/rtkHooks";
+import { TToken } from "../../../types/shared";
 
 const { UpdateForm } = styles;
 
 const UpdateProductForm = () =>
 {
+   const { token } = useAppSelector(state => state.auth);
    const { dispatch, productInfo, loading, error } = useProductDetails();
    const { register, handleSubmit, reset, formState: { errors } } = useForm<TProduct>();
    const navigate = useNavigate()
@@ -28,10 +30,8 @@ const UpdateProductForm = () =>
       {
          reset({
             title: productInfo?.title,
-            description: productInfo?.description,
-            image: productInfo?.image,
             price: productInfo?.price,
-            category: productInfo?.category,
+            quantity: productInfo?.quantity,
          })
       }
 
@@ -40,9 +40,15 @@ const UpdateProductForm = () =>
 
    const onSubmit: SubmitHandler<TProduct> = (data) =>
    {
-      if ((productInfo?.id))
+      if ((productInfo && productInfo["_id"]))
       {
-         dispatch(actUpdateProduct({ ...data, id: productInfo.id }))
+         const productWithToken: TProduct & { token: TToken } = {
+            ...data,
+            _id: productInfo["_id"],
+            token,
+         };
+
+         dispatch(actUpdateProduct(productWithToken))
             .unwrap()
             .then(() => reset())
             .then(() => navigate('/'))
@@ -68,24 +74,6 @@ const UpdateProductForm = () =>
                helperText={errors.title?.message}
             />
             <TextField
-               id="description"
-               {...register('description')}
-               label="Description"
-               variant="outlined"
-               InputLabelProps={{ shrink: true }}
-               error={!!errors.description}
-               helperText={errors.description?.message}
-            />
-            <TextField
-               id="image"
-               {...register('image')}
-               label="Image URL"
-               variant="outlined"
-               InputLabelProps={{ shrink: true }}
-               error={!!errors.image}
-               helperText={errors.image?.message}
-            />
-            <TextField
                id="price"
                {...register('price')}
                label="Price"
@@ -95,13 +83,13 @@ const UpdateProductForm = () =>
                helperText={errors.price?.message}
             />
             <TextField
-               id="category"
-               {...register('category')}
-               label="Category"
+               id="Quantity"
+               {...register('quantity')}
+               label="Quantity"
                variant="outlined"
                InputLabelProps={{ shrink: true }}
-               error={!!errors.category}
-               helperText={errors.category?.message}
+               error={!!errors.quantity}
+               helperText={errors.quantity?.message}
             />
             <Button
                type="submit"

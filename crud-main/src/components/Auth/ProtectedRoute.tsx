@@ -1,12 +1,11 @@
 import { Navigate } from "react-router"
 import { useAppSelector } from "../../store/rtkHooks";
-import { jwtDecode } from "jwt-decode";
 
-type TProps = {
+type TProtectedRouteProps = {
    children: React.ReactNode;
 }
 
-const ProtectedRoute = ({ children }: TProps) =>
+const ProtectedRoute = ({ children }: TProtectedRouteProps) =>
 {
    const { token } = useAppSelector(state => state.auth);
 

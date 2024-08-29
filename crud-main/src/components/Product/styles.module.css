@@ -6,7 +6,7 @@ table .titleCell {
 }
 
 table .orderCell {
-   color: #90caf9;
+   font-weight: bold;
 }
 
 table .descriptionCell {

@@ -1,11 +1,15 @@
 import { Alert } from "@mui/material"
 import { TError } from "../../../types/shared"
 
-const ErrorFeedback = ({ error }: { error: TError }) =>
+type TErrorFeedbackProps = {
+   error: TError
+   severity?: "warning" | "error"
+}
+const ErrorFeedback = ({ error, severity = "error" }: TErrorFeedbackProps) =>
 {
    return (
       <>
-         {error && <Alert severity="error">{error}</Alert>}
+         {error && <Alert severity={severity}>{error}</Alert>}
       </>
    )
 }
