@@ -52,10 +52,9 @@ const LoginForm = () =>
       dispatch(actAuthLogin(formData))
          .unwrap()
          .then(() => navigate('/', { replace: true }))
+         .then(() => setSearchParams(""))
          // (err = error) to avoid crashing the app.. already handled error below
          .catch(err => err = error)
-
-      setSearchParams("");
    }
 
    const handleShowPassword = (): void => setShowPassword(!showPassword);
