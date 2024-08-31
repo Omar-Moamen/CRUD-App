@@ -32,32 +32,33 @@ const Home = () =>
    }, [dispatch, token]);
 
    return (
-      <Container sx={{ minHeight: 'calc(100vh - 150px)' }} maxWidth="lg">
-         {
-            <Loading status={loading} size="150px">
-               {error && <Alert severity="error">{error}</Alert>}
-               <AddProductModal />
-               <TableContainer sx={{ mb: "50px" }} component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                     <TableHead>
-                        <TableRow sx={{ bgcolor: currentMode === "light" ? "ghostwhite" : grey[900] }}>
-                           <TableCell sx={thOverrides}>#</TableCell>
-                           <TableCell sx={thOverrides} align="center">Title</TableCell>
-                           <TableCell sx={thOverrides} align="center">Price</TableCell>
-                           <TableCell sx={thOverrides} align="center">Quantity</TableCell>
-                           <TableCell sx={thOverrides} align="center">Operations</TableCell>
-                        </TableRow>
-                     </TableHead>
-                     <TableBody>
+      <Loading status={loading} size="150px">
+         <Container sx={{ minHeight: 'calc(100vh - 150px)' }} maxWidth="lg">
 
-                        <ProductsList records={records} />
+            {error && <Alert severity="error">{error}</Alert>}
 
-                     </TableBody>
-                  </Table>
-               </TableContainer>
-            </Loading>
-         }
-      </Container>
+            <AddProductModal />
+
+            <TableContainer sx={{ mb: "50px" }} component={Paper}>
+               <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                     <TableRow sx={{ bgcolor: currentMode === "light" ? "ghostwhite" : grey[900] }}>
+                        <TableCell sx={thOverrides}>#</TableCell>
+                        <TableCell sx={thOverrides} align="center">Title</TableCell>
+                        <TableCell sx={thOverrides} align="center">Price</TableCell>
+                        <TableCell sx={thOverrides} align="center">Quantity</TableCell>
+                        <TableCell sx={thOverrides} align="center">Operations</TableCell>
+                     </TableRow>
+                  </TableHead>
+                  <TableBody>
+
+                     <ProductsList records={records} />
+
+                  </TableBody>
+               </Table>
+            </TableContainer>
+         </Container>
+      </Loading>
    )
 }
 

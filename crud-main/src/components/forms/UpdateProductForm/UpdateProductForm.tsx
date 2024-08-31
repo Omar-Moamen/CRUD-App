@@ -40,10 +40,14 @@ const UpdateProductForm = () =>
 
    const onSubmit: SubmitHandler<TProduct> = (data) =>
    {
+      const { quantity } = data;
+      const convertedQuantity = Number(Math.floor(quantity));
+
       if ((productInfo && productInfo["_id"]))
       {
          const productWithToken: TProduct & { token: TToken } = {
             ...data,
+            quantity: convertedQuantity,
             _id: productInfo["_id"],
             token,
          };

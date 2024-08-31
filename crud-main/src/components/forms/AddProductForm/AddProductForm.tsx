@@ -5,9 +5,9 @@ import { TProduct } from "../../../types/product";
 import ErrorFeedback from "../../feedback/ErrorFeedback/ErrorFeedback";
 import useCurrentMode from "../../../hooks/useCurrentMode";
 import { Button, TextField } from "@mui/material";
+import Form from "../Form/Form";
 // Styles
 import styles from './styles.module.css';
-import Form from "../Form/Form";
 
 type TProps = {
    setOpenModal: (arg: boolean) => void;
@@ -26,8 +26,9 @@ const AddProductForm = ({ setOpenModal }: TProps) =>
 
    const onSubmit: SubmitHandler<TProduct> = (data) =>
    {
-      const { title, quantity, price } = data;
-      const productWithToken = { token, title, quantity, price }
+      const { quantity } = data;
+      const convertedQuantity = Number(Math.floor(quantity))
+      const productWithToken = { ...data, quantity: convertedQuantity, token, }
 
       dispatch(actAddProduct(productWithToken))
          .unwrap()

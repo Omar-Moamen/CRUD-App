@@ -6,7 +6,7 @@ const UpdateProduct = () =>
 {
    const { user, token } = useAuthInfo();
 
-   if (!token || (user?.sub !== "SuperAdmin"))
+   if (!token || (user?.role !== "SuperAdmin"))
    {
       return <Navigate to='/' replace={true} />
    }

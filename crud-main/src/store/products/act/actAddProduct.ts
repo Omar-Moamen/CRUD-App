@@ -18,15 +18,18 @@ export const actAddProduct = createAsyncThunk('products/actAddProduct',
 
       try
       {
-         const response = await axios.post('http://localhost:8080', {}, {
-            headers: {
-               Authorization: token,
+         const response = await axios.post('http://localhost:8080',
+            {
                title,
                price,
                quantity,
-               "Content-Type": 'application/json',
-            }
-         })
+            },
+            {
+               headers: {
+                  Authorization: token,
+                  "Content-Type": 'application/json',
+               }
+            })
          return response.data;
       }
       catch (error)

@@ -16,16 +16,16 @@ export const actUpdateProduct = createAsyncThunk('products/edit',
 
       try
       {
-         const response = await axios.put(
-            `/${_id}`, {}, {
-            headers: {
-               Authorization: token,
+         const response = await axios.put(`/${_id}`,
+            {
                title,
                price,
                quantity
             },
-            signal,
-         }
+            {
+               headers: { Authorization: token, },
+               signal,
+            }
 
          )
          return response.data;

@@ -17,11 +17,7 @@ const Avatar = ({ user, margin = "initial" }: TAvatarProps) =>
       <Box className={avatar} sx={{ margin: margin }}>
          <AccountCircleOutlinedIcon />
          <Typography variant="body1">
-            <Typography
-               component="span"
-               fontWeight="bold"
-               color=""
-            >
+            <Typography component="span" fontWeight="bold">
                {user?.username}
             </Typography>
          </Typography>

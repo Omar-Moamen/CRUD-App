@@ -5,7 +5,7 @@ const PageSuspenseFallback = ({ children }: { children: React.ReactNode }) =>
 {
    return (
       <Suspense
-         fallback={<LottieHandler type='loading' width="400px" message='Loading...' />}
+         fallback={<LottieHandler type='loading' width="400px" />}
       >
          {children}
       </Suspense>

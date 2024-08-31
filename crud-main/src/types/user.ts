@@ -1,8 +1,8 @@
 type TUser = {
-   userId: string,
+   id: string,
    username: string,
    email: string,
-   sub: string,
+   role: string,
 } | null
 
 export type { TUser };

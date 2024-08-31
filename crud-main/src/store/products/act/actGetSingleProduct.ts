@@ -3,8 +3,6 @@ import axios from "axios";
 import axiosErrorHandler from "../../../utils/axiosErrorHandler";
 import { TProductIdWithToken } from "../../../types/shared";
 
-
-
 export const actGetSingleProduct = createAsyncThunk("products/actGetSingleProduct",
    async (productIdWithToken: TProductIdWithToken, thunkAPI) =>
    {

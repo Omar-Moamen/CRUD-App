@@ -17,7 +17,7 @@ const ProductDetails = () =>
   const { productInfo, loading, error } = useProductDetails();
   const { token, user } = useAuthInfo();
 
-  if (!token || (user?.sub !== "Admin" && user?.sub !== "SuperAdmin"))
+  if (!token || (user?.role !== "Admin" && user?.role !== "SuperAdmin"))
   {
     return <Navigate to="/" replace={true} />
   }

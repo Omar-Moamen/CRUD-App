@@ -83,7 +83,7 @@ const productsSlice = createSlice({
          {
             state.loading = 'succeeded';
             state.error = null;
-            state.records.push(payload.product);
+            state.records.push(payload.message);
          })
          .addCase(actAddProduct.rejected, (state, { payload }) =>
          {

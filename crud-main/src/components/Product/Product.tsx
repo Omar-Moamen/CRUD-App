@@ -53,7 +53,7 @@ const Product = memo(({ _id, title, price, quantity, idx }: TProps) =>
                      text="Edit"
                      title="You don't have this permission"
                      placement="top"
-                     disabled={token && user && user.sub === "SuperAdmin" ? false : true}
+                     disabled={token && user && user.role === "SuperAdmin" ? false : true}
                      color="success"
                      onClick={() => { navigate(`/products/${_id}/edit`) }}
                   />
@@ -61,7 +61,7 @@ const Product = memo(({ _id, title, price, quantity, idx }: TProps) =>
                      text="Delete"
                      title="You don't have this permission"
                      placement="top"
-                     disabled={token && user && user.sub === "SuperAdmin" ? false : true}
+                     disabled={token && user && user.role === "SuperAdmin" ? false : true}
                      color="error"
                      onClick={() => dispatch(actDeleteProduct({ _id, token }))}
                   />
