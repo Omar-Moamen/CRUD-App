@@ -10,7 +10,7 @@ export const getSingleProduct = createAsyncThunk("products/getSingleProduct",
       const { rejectWithValue, signal } = thunkAPI;
       try
       {
-         const response = await axios.get(`/${_id}`, {
+         const response = await axios.get(`http://localhost:8080/${_id}`, {
             headers: {
                Authorization: token,
             },

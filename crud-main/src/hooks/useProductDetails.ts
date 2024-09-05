@@ -7,9 +7,11 @@ import { useParams } from "react-router";
 const useProductDetails = () =>
 {
    const dispatch = useAppDispatch();
-   const { token } = useAppSelector(state => state.auth)
+   const { token } = useAppSelector(state => state.auth);
    const { productInfo, loading, error } = useAppSelector(state => state.products);
-   const { productId } = useParams()
+   const { productId } = useParams();
+
+   console.log(productId)
 
    useEffect(() =>
    {

@@ -8,12 +8,16 @@ import { TableCell, TableRow } from "@mui/material";
 import useCurrentMode from "../../hooks/useCurrentMode";
 // Styles
 import styles from './styles.module.css';
+import { getSingleProduct } from "../../store/products/actions/getSingleProduct";
 
-type TProps = TProduct & { idx?: number };
+type TProps = TProduct & {
+   idx?: number;
+   setOpen: (arg: boolean) => void;
+};
 
 const { orderCell, titleCell, btnsContainer } = styles;
 
-const Product = memo(({ _id, title, price, quantity, idx }: TProps) =>
+const Product = memo(({ _id, title, price, quantity, idx, setOpen }: TProps) =>
 {
    const dispatch = useAppDispatch();
    const { token, user } = useAppSelector(state => state.auth);
@@ -47,7 +51,11 @@ const Product = memo(({ _id, title, price, quantity, idx }: TProps) =>
                      placement="top"
                      disabled={token && user ? false : true}
                      color="info"
-                     onClick={() => navigate(`${_id}`)}
+                     onClick={() =>
+                     {
+                        setOpen(true);
+                        dispatch(getSingleProduct({ _id, token }))
+                     }}
                   />
                   <TooltipButton
                      text="Edit"

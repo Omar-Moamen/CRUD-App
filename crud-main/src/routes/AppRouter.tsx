@@ -11,7 +11,6 @@ const Home = lazy(() => import('../pages/Home'));
 const Register = lazy(() => import('../pages/Register'));
 const Login = lazy(() => import('../pages/Login'));
 const Profile = lazy(() => import('../pages/Profile'));
-const ProductDetails = lazy(() => import('../pages/ProductDetails'));
 const UpdateProduct = lazy(() => import('../pages/UpdateProduct'));
 
 
@@ -26,34 +25,12 @@ const router = createBrowserRouter([
       errorElement: <Error />,
       children: [
          {
-            index: true,
+            path: '/',
             element: (
                <ProtectedRoute>
                   <Home />
                </ProtectedRoute>
             )
-         },
-         {
-            path: ':productId',
-            element: (
-               <PageSuspenseFallback>
-                  <ProductDetails />
-               </PageSuspenseFallback>
-            ),
-            loader: ({ params }) =>
-            {
-               if (params.productId)
-               {
-                  if (/[A-Z]/g.test(params.productId))
-                  {
-                     throw new Response("Bad Request", {
-                        statusText: "Product not found",
-                        status: 400,
-                     });
-                  }
-               }
-               return true;
-            }
          },
          {
             path: ':productId/edit',
