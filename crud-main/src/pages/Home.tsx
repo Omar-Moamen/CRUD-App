@@ -8,7 +8,7 @@ import ProductsList from "../components/ProductsList/ProductsList"
 import AddProductModal from "../components/common/productModals/AddProductModal/AddProductModal"
 import { useAppDispatch, useAppSelector } from "../store/rtkHooks"
 import { useEffect } from "react"
-import { actGetAllProducts } from "../store/products/act/actGetAllProducts"
+import { getAllProducts } from "../store/products/actions/getAllProducts"
 import Loading from "../components/feedback/Loading/Loading"
 import { grey } from "@mui/material/colors"
 import useCurrentMode from "../hooks/useCurrentMode"
@@ -18,18 +18,13 @@ const thOverrides = { fontWeight: "bold" };
 const Home = () =>
 {
    const dispatch = useAppDispatch();
-   const { token } = useAppSelector(state => state.auth);
    const { records, loading, error } = useAppSelector(state => state.products);
    const { currentMode } = useCurrentMode()
 
    useEffect(() =>
    {
-      if (token)
-      {
-         dispatch(actGetAllProducts(token));
-      }
-      // promise.abort() will cancel the request if a user bounce occurred
-   }, [dispatch, token]);
+      dispatch(getAllProducts());
+   }, [dispatch]);
 
    return (
       <Loading status={loading} size="150px">
@@ -62,4 +57,4 @@ const Home = () =>
    )
 }
 
-export default Home
+export default Home;

@@ -8,7 +8,7 @@ type TProductWithToken = TProduct & {
    token: TToken
 }
 
-export const actUpdateProduct = createAsyncThunk('products/edit',
+export const updateProduct = createAsyncThunk('products/updateProduct',
    async (productWithToken: TProductWithToken, thunkAPI) =>
    {
       const { token, _id, title, price, quantity } = productWithToken;

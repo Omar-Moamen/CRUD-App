@@ -3,24 +3,23 @@ import axios from "axios";
 import axiosErrorHandler from "../../../utils/axiosErrorHandler";
 import { TProductIdWithToken } from "../../../types/shared";
 
-export const actDeleteProduct = createAsyncThunk('products/actDeleteProduct',
+export const getSingleProduct = createAsyncThunk("products/getSingleProduct",
    async (productIdWithToken: TProductIdWithToken, thunkAPI) =>
    {
       const { _id, token } = productIdWithToken;
-      const { rejectWithValue } = thunkAPI;
+      const { rejectWithValue, signal } = thunkAPI;
       try
       {
-         await axios.delete(`/${_id}`, {
+         const response = await axios.get(`/${_id}`, {
             headers: {
                Authorization: token,
-            }
+            },
+            signal,
          });
-
-         return _id;
+         return response.data;
       }
       catch (error)
       {
          return rejectWithValue(axiosErrorHandler(error));
       }
-   }
-)
+   })

@@ -4,18 +4,19 @@ import { actAuthLogin } from "./act/actAuthLogin";
 import { isString } from "../../types/guards";
 import { jwtDecode } from "jwt-decode";
 import { TUser } from "../../types/user";
+import { TLoading } from "../../types/shared";
 
 type TAuthState = {
    token: string | null;
    user: TUser;
-   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+   loading: TLoading
    error: string | null;
 }
 
 const initialState: TAuthState = {
    token: null,
    user: null,
-   loading: 'idle',
+   loading: false,
    error: null,
 }
 
@@ -25,7 +26,7 @@ const authSlice = createSlice({
    reducers: {
       clearAuthUI: (state) =>
       {
-         state.loading = 'idle';
+         state.loading = false;
          state.error = null;
       },
       userLogout: (state) =>
@@ -40,17 +41,17 @@ const authSlice = createSlice({
       builder
          .addCase(actAuthRegister.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
          .addCase(actAuthRegister.fulfilled, (state) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
          })
          .addCase(actAuthRegister.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
@@ -59,12 +60,12 @@ const authSlice = createSlice({
       builder
          .addCase(actAuthLogin.pending, (state) =>
          {
-            state.loading = "pending";
+            state.loading = true;
             state.error = null;
          })
          .addCase(actAuthLogin.fulfilled, (state, { payload }) =>
          {
-            state.loading = "succeeded";
+            state.loading = false;
             state.error = null;
             state.token = payload.accessToken;
             state.user = jwtDecode(payload.accessToken);
@@ -72,7 +73,7 @@ const authSlice = createSlice({
          })
          .addCase(actAuthLogin.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
             {
                state.error = payload;

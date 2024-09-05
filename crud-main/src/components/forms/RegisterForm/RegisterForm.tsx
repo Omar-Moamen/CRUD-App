@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router';
 import { clearAuthUI } from '../../../store/auth/authSlice';
 import ErrorFeedback from '../../feedback/ErrorFeedback/ErrorFeedback';
 import PasswordInput from '../PasswordInput/PasswordInput';
-import useCheckEmailAvailability from '../../../hooks/useCheckEmailAvailability';
 import useCurrentMode from '../../../hooks/useCurrentMode';
 import { Box, Button, CircularProgress, MenuItem, TextField } from "@mui/material"
 // Styles
@@ -30,20 +29,12 @@ const RegisterForm = () =>
    const {
       register,
       handleSubmit,
-      trigger,
-      getFieldState,
       reset,
       formState: { errors } }
       = useForm<TSignUpInputs>({
          mode: "onBlur",
          resolver: zodResolver(signUpSchema),
       })
-
-   const {
-      emailAvailabilityStatus,
-      prevEmail,
-      checkEmailAvailability,
-      resetCheckEmailAvailability } = useCheckEmailAvailability()
 
    const [showPassword, setShowPassword] = useState(false);
    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -59,26 +50,6 @@ const RegisterForm = () =>
    // Handlers
    const handleShowPassword = (): void => setShowPassword(!showPassword);
    const handleShowConfirmPassword = (): void => setShowConfirmPassword(!showConfirmPassword);
-
-   const emailOnBlurHandler = async (event: React.FocusEvent<HTMLInputElement>) =>
-   {
-      // await to ensure that the validation will trigger first
-      await trigger("email");
-      const currentVal = event.target.value;
-      const { isDirty, invalid } = getFieldState('email');
-
-      if (isDirty && !invalid && prevEmail !== currentVal)
-      {
-         // Checking
-         checkEmailAvailability(currentVal)
-      }
-      if (isDirty && invalid && prevEmail)
-      {
-         resetCheckEmailAvailability();
-      }
-
-      register("email").onBlur(event);
-   }
 
    const onSubmit: SubmitHandler<TSignUpInputs> = (formData) =>
    {
@@ -128,22 +99,9 @@ const RegisterForm = () =>
             id="email"
             label="Email"
             {...register('email')}
-            onBlur={emailOnBlurHandler}
             variant="outlined"
-            disabled={!!(emailAvailabilityStatus === "checking")}
-            color={emailAvailabilityStatus === "available" ? "success" : undefined}
-            error={!!(errors.email || emailAvailabilityStatus === "notAvailable")}
-            helperText={
-               errors.email?.message || (!errors.email?.message &&
-                  emailAvailabilityStatus === "checking" ?
-                  "Checking email availability" :
-                  emailAvailabilityStatus === "available" ?
-                     "Email is available to use" :
-                     emailAvailabilityStatus === "notAvailable" ?
-                        "Email is not available" :
-                        emailAvailabilityStatus === "failed" ?
-                           "Server failed" : "")
-            }
+            error={!!errors.email}
+            helperText={errors.email?.message}
          />
          <TextField
             sx={{ flexGrow: 1 }}
@@ -191,9 +149,9 @@ const RegisterForm = () =>
                sx={{ width: { xs: "100%", sm: "fit-content" } }}
                variant={currentMode === "light" ? "contained" : "outlined"}
                size="large"
-               disabled={!!(loading === "pending" || emailAvailabilityStatus === "checking")}
+               disabled={!!loading}
             >
-               {loading === "pending" && <CircularProgress sx={{ mr: "10px" }} size={20} />}
+               {loading && <CircularProgress sx={{ mr: "10px" }} size={20} />}
                Submit
             </Button>
             <Button
@@ -201,7 +159,7 @@ const RegisterForm = () =>
                variant={currentMode === "light" ? "contained" : "outlined"}
                color="secondary"
                size="large"
-               disabled={!!(loading === "pending")}
+               disabled={!!loading}
                onClick={() => reset()}
             >
                Reset

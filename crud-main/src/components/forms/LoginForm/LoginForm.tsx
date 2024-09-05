@@ -10,13 +10,10 @@ import { clearAuthUI } from "../../../store/auth/authSlice";
 import PasswordInput from "../PasswordInput/PasswordInput";
 import ErrorFeedback from "../../feedback/ErrorFeedback/ErrorFeedback";
 import useCurrentMode from "../../../hooks/useCurrentMode";
+import Form from "../Form/Form";
 import { Alert, Box, Button, CircularProgress, TextField } from "@mui/material"
 // Styles
 import styles from './styles.module.css';
-import Form from "../Form/Form";
-
-
-
 
 type TLoginInputs = z.infer<typeof loginSchema>
 
@@ -107,9 +104,9 @@ const LoginForm = () =>
                sx={{ width: { xs: "100%", sm: "fit-content" } }}
                variant={currentMode === "light" ? "contained" : "outlined"}
                size="large"
-               disabled={!!(loading === "pending")}
+               disabled={!!loading}
             >
-               {loading === "pending" && <CircularProgress sx={{ mr: '10px' }} size={20} />}
+               {loading && <CircularProgress sx={{ mr: '10px' }} size={20} />}
                Login
             </Button>
             <Button

@@ -1,24 +1,26 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { actUpdateProduct } from "../../../store/products/act/actUpdateProduct";
-import useProductDetails from "../../../hooks/useProductDetails";
+import { updateProduct } from "../../../store/products/actions/updateProduct";
 import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../store/rtkHooks";
+import { TToken } from "../../../types/shared";
 import { useNavigate } from "react-router";
+import useProductDetails from "../../../hooks/useProductDetails";
 import ErrorFeedback from "../../feedback/ErrorFeedback/ErrorFeedback";
 import { TProduct } from "../../../types/product";
 import { Button, CircularProgress, Container, TextField } from "@mui/material";
-// Styles
-import styles from './styles.module.css';
 import useCurrentMode from "../../../hooks/useCurrentMode";
 import Form from "../Form/Form";
-import { useAppSelector } from "../../../store/rtkHooks";
-import { TToken } from "../../../types/shared";
+// Styles
+import styles from './styles.module.css';
+import Loading from "../../feedback/Loading/Loading";
 
 const { UpdateForm } = styles;
 
 const UpdateProductForm = () =>
 {
+   const dispatch = useAppDispatch();
    const { token } = useAppSelector(state => state.auth);
-   const { dispatch, productInfo, loading, error } = useProductDetails();
+   const { productInfo, loading, error } = useProductDetails();
    const { register, handleSubmit, reset, formState: { errors } } = useForm<TProduct>();
    const navigate = useNavigate()
 
@@ -52,7 +54,7 @@ const UpdateProductForm = () =>
             token,
          };
 
-         dispatch(actUpdateProduct(productWithToken))
+         dispatch(updateProduct(productWithToken))
             .unwrap()
             .then(() => reset())
             .then(() => navigate('/'))
@@ -63,50 +65,52 @@ const UpdateProductForm = () =>
 
    return (
       <Container sx={{ minHeight: 'calc(100vh - 150px)' }} maxWidth="lg">
-         <Form
-            className={`neonForm ${UpdateForm}`}
-            heading="Edit Product"
-            onSubmit={handleSubmit(onSubmit)}
-         >
-            <TextField
-               id="title"
-               {...register('title')}
-               label="Title"
-               variant="outlined"
-               InputLabelProps={{ shrink: true }}
-               error={!!errors.title}
-               helperText={errors.title?.message}
-            />
-            <TextField
-               id="price"
-               {...register('price')}
-               label="Price"
-               variant="outlined"
-               InputLabelProps={{ shrink: true }}
-               error={!!errors.price}
-               helperText={errors.price?.message}
-            />
-            <TextField
-               id="Quantity"
-               {...register('quantity')}
-               label="Quantity"
-               variant="outlined"
-               InputLabelProps={{ shrink: true }}
-               error={!!errors.quantity}
-               helperText={errors.quantity?.message}
-            />
-            <Button
-               type="submit"
-               variant={currentMode === "light" ? "contained" : "outlined"}
+         <Loading status={loading} size="150px">
+            <Form
+               className={`neonForm ${UpdateForm}`}
+               heading="Edit Product"
+               onSubmit={handleSubmit(onSubmit)}
             >
-               {
-                  loading === "pending" &&
-                  <CircularProgress sx={{ mr: '10px' }} size={20} />
-               }
-               Submit
-            </Button>
-            <ErrorFeedback error={error} />
-         </Form>
+               <TextField
+                  id="title"
+                  {...register('title')}
+                  label="Title"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.title}
+                  helperText={errors.title?.message}
+               />
+               <TextField
+                  id="price"
+                  {...register('price')}
+                  label="Price"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.price}
+                  helperText={errors.price?.message}
+               />
+               <TextField
+                  id="Quantity"
+                  {...register('quantity')}
+                  label="Quantity"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.quantity}
+                  helperText={errors.quantity?.message}
+               />
+               <Button
+                  type="submit"
+                  variant={currentMode === "light" ? "contained" : "outlined"}
+               >
+                  {
+                     loading &&
+                     <CircularProgress sx={{ mr: '10px' }} size={20} />
+                  }
+                  Submit
+               </Button>
+               <ErrorFeedback error={error} />
+            </Form>
+         </Loading>
       </Container>
    )
 }

@@ -27,10 +27,14 @@ const router = createBrowserRouter([
       children: [
          {
             index: true,
-            element: <Home />,
+            element: (
+               <ProtectedRoute>
+                  <Home />
+               </ProtectedRoute>
+            )
          },
          {
-            path: 'products/:productId',
+            path: ':productId',
             element: (
                <PageSuspenseFallback>
                   <ProductDetails />
@@ -52,7 +56,7 @@ const router = createBrowserRouter([
             }
          },
          {
-            path: 'products/:productId/edit',
+            path: ':productId/edit',
             element: (
                <PageSuspenseFallback>
                   <UpdateProduct />

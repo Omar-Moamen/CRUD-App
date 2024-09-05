@@ -7,15 +7,21 @@ type TResponse = {
    product: TProduct[]
 };
 
-export const actGetAllProducts = createAsyncThunk('products/actGetAllProducts',
-   async (token: string, thunkAPI) =>
+
+
+export const getAllProducts = createAsyncThunk('products/getAllProducts',
+   async (_, thunkAPI) =>
    {
+      const localData = localStorage.getItem("persist:auth");
+      const tokenWithQuotes = await JSON.parse(localData!).token;
+      const token = await tokenWithQuotes.match(/[?=(\w*|.)]/igm).join('');
+
       const { rejectWithValue } = thunkAPI;
       try
       {
          const response = await axios.get<TResponse>('http://localhost:8080', {
             headers: {
-               Authorization: token!
+               Authorization: token
             }
          });
          return response.data;

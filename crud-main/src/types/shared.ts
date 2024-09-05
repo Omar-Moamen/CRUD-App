@@ -1,4 +1,4 @@
-type TLoading = 'idle' | 'pending' | 'succeeded' | 'failed';
+type TLoading = boolean;
 type TError = string | null;
 type TToken = string | null;
 

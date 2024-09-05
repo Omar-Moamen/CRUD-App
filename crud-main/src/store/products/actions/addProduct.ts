@@ -10,7 +10,7 @@ type TProductWithToken = {
    quantity: number;
 }
 
-export const actAddProduct = createAsyncThunk('products/actAddProduct',
+export const addProduct = createAsyncThunk('products/addProduct',
    async (productWithToken: TProductWithToken, thunkAPI) =>
    {
       const { token, title, price, quantity } = productWithToken;

@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TProduct } from "../../types/product";
 import { TError, TLoading } from "../../types/shared";
-import { actGetAllProducts } from "./act/actGetAllProducts";
-import { actAddProduct } from "./act/actAddProduct";
-import { actDeleteProduct } from "./act/actDeleteProduct";
-import { actGetSingleProduct } from "./act/actGetSingleProduct";
-import { actUpdateProduct } from "./act/actUpdateProduct";
+
 import { isString } from "../../types/guards";
+import { getAllProducts } from "./actions/getAllProducts";
+import { getSingleProduct } from "./actions/getSingleProduct";
+import { addProduct } from "./actions/addProduct";
+import { updateProduct } from "./actions/updateProduct";
+import { deleteProduct } from "./actions/deleteProduct";
 
 type TProductsState = {
    records: TProduct[],
@@ -18,7 +19,7 @@ type TProductsState = {
 const initialState: TProductsState = {
    records: [],
    productInfo: null,
-   loading: 'idle',
+   loading: false,
    error: null,
 }
 
@@ -28,7 +29,7 @@ const productsSlice = createSlice({
    reducers: {
       cleanProductInfo: (state) =>
       {
-         state.loading = 'idle';
+         state.loading = false;
          state.productInfo = null;
       }
    },
@@ -36,95 +37,95 @@ const productsSlice = createSlice({
    {
       // Get All Products
       builder
-         .addCase(actGetAllProducts.pending, (state) =>
+         .addCase(getAllProducts.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
-         .addCase(actGetAllProducts.fulfilled, (state, { payload }) =>
+         .addCase(getAllProducts.fulfilled, (state, { payload }) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
             state.records = payload.product;
          })
-         .addCase(actGetAllProducts.rejected, (state, { payload }) =>
+         .addCase(getAllProducts.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
 
          // Get Single Product
-         .addCase(actGetSingleProduct.pending, (state) =>
+         .addCase(getSingleProduct.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
-         .addCase(actGetSingleProduct.fulfilled, (state, { payload }) =>
+         .addCase(getSingleProduct.fulfilled, (state, { payload }) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
             state.productInfo = payload.message;
          })
-         .addCase(actGetSingleProduct.rejected, (state, { payload }) =>
+         .addCase(getSingleProduct.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
 
          // Add Product
-         .addCase(actAddProduct.pending, (state) =>
+         .addCase(addProduct.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
-         .addCase(actAddProduct.fulfilled, (state, { payload }) =>
+         .addCase(addProduct.fulfilled, (state, { payload }) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
             state.records.push(payload.message);
          })
-         .addCase(actAddProduct.rejected, (state, { payload }) =>
+         .addCase(addProduct.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
 
          // Edit Product
-         .addCase(actUpdateProduct.pending, (state) =>
+         .addCase(updateProduct.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
-         .addCase(actUpdateProduct.fulfilled, (state) =>
+         .addCase(updateProduct.fulfilled, (state) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
          })
-         .addCase(actUpdateProduct.rejected, (state, { payload }) =>
+         .addCase(updateProduct.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
 
          // Delete Product
-         .addCase(actDeleteProduct.pending, (state) =>
+         .addCase(deleteProduct.pending, (state) =>
          {
-            state.loading = 'pending';
+            state.loading = true;
             state.error = null;
          })
-         .addCase(actDeleteProduct.fulfilled, (state, { payload }) =>
+         .addCase(deleteProduct.fulfilled, (state, { payload }) =>
          {
-            state.loading = 'succeeded';
+            state.loading = false;
             state.error = null;
             state.records = state.records.filter(el => (el["_id"] !== payload));
          })
-         .addCase(actDeleteProduct.rejected, (state, { payload }) =>
+         .addCase(deleteProduct.rejected, (state, { payload }) =>
          {
-            state.loading = 'failed';
+            state.loading = false;
             if (isString(payload))
                state.error = payload;
          })
