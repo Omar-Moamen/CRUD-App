@@ -7,12 +7,12 @@ import
 import ProductsList from "../components/ProductsList/ProductsList"
 import AddProductModal from "../components/common/productModals/AddProductModal/AddProductModal"
 import { useAppDispatch, useAppSelector } from "../store/rtkHooks"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { getAllProducts } from "../store/products/actions/getAllProducts"
-import Loading from "../components/feedback/Loading/Loading"
 import { grey } from "@mui/material/colors"
 import useCurrentMode from "../hooks/useCurrentMode"
 import ProductDetailsModal from "../components/common/productModals/ProductDetailsModal/ProductDetailsModal"
+import LottieHandler from "../components/feedback/LottieHandler/LottieHandler"
 
 const thOverrides = { fontWeight: "bold" };
 
@@ -31,8 +31,8 @@ const Home = () =>
    const handleClose = () => { setOpen(false) };
 
    return (
-      <Loading status={loading} size="150px">
-         <Container sx={{ minHeight: 'calc(100vh - 150px)' }} maxWidth="lg">
+      <Container sx={{ minHeight: 'calc(100vh - 150px)' }} maxWidth="lg">
+         <Suspense fallback={<LottieHandler type="loading" width="150px" />}>
 
             {error && <Alert severity="error">{error}</Alert>}
 
@@ -62,8 +62,8 @@ const Home = () =>
                   </TableBody>
                </Table>
             </TableContainer>
-         </Container>
-      </Loading>
+         </Suspense>
+      </Container>
    )
 }
 

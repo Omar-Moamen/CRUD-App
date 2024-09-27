@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import axiosErrorHandler from "../../../utils/axiosErrorHandler";
-import { TProductIdWithToken } from "../../../types/shared";
+import { getUserToken } from "../../../utils/getUserToken";
 
 export const getSingleProduct = createAsyncThunk("products/getSingleProduct",
-   async (productIdWithToken: TProductIdWithToken, thunkAPI) =>
+   async (_id: string, thunkAPI) =>
    {
-      const { _id, token } = productIdWithToken;
       const { rejectWithValue, signal } = thunkAPI;
+      const token = await getUserToken();
+
       try
       {
          const response = await axios.get(`http://localhost:8080/${_id}`, {

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/rtkHooks";
 import { deleteProduct } from "../../store/products/actions/deleteProduct";
+import { getSingleProduct } from "../../store/products/actions/getSingleProduct";
 import { TProduct } from "../../types/product";
 import { useNavigate } from "react-router";
 import TooltipButton from "../common/TooltipButton/TooltipButton";
@@ -8,7 +9,6 @@ import { TableCell, TableRow } from "@mui/material";
 import useCurrentMode from "../../hooks/useCurrentMode";
 // Styles
 import styles from './styles.module.css';
-import { getSingleProduct } from "../../store/products/actions/getSingleProduct";
 
 type TProps = TProduct & {
    idx?: number;
@@ -54,7 +54,7 @@ const Product = memo(({ _id, title, price, quantity, idx, setOpen }: TProps) =>
                      onClick={() =>
                      {
                         setOpen(true);
-                        dispatch(getSingleProduct({ _id, token }))
+                        dispatch(getSingleProduct(_id))
                      }}
                   />
                   <TooltipButton

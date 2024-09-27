@@ -7,7 +7,6 @@ import { useParams } from "react-router";
 const useProductDetails = () =>
 {
    const dispatch = useAppDispatch();
-   const { token } = useAppSelector(state => state.auth);
    const { productInfo, loading, error } = useAppSelector(state => state.products);
    const { productId } = useParams();
 
@@ -15,8 +14,7 @@ const useProductDetails = () =>
 
    useEffect(() =>
    {
-      const productIdWithToken = { _id: productId!, token, }
-      const promise = dispatch(getSingleProduct(productIdWithToken))
+      const promise = dispatch(getSingleProduct(productId!))
 
       return () =>
       {
@@ -25,7 +23,7 @@ const useProductDetails = () =>
          promise.abort();
       }
 
-   }, [dispatch, productId, token])
+   }, [dispatch, productId])
 
    return { productInfo, loading, error, dispatch }
 }

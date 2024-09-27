@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import axiosErrorHandler from '../../../utils/axiosErrorHandler';
 import { TProduct } from '../../../types/product';
+import { getUserToken } from '../../../utils/getUserToken';
 
 type TResponse = {
    product: TProduct[]
@@ -12,16 +13,14 @@ type TResponse = {
 export const getAllProducts = createAsyncThunk('products/getAllProducts',
    async (_, thunkAPI) =>
    {
-      const localData = localStorage.getItem("persist:auth");
-      const tokenWithQuotes = await JSON.parse(localData!).token;
-      const token = await tokenWithQuotes.match(/[?=(\w*|.)]/igm).join('');
+      const token = await getUserToken();
 
       const { rejectWithValue } = thunkAPI;
       try
       {
          const response = await axios.get<TResponse>('http://localhost:8080', {
             headers: {
-               Authorization: token
+               Authorization: token,
             }
          });
          return response.data;
